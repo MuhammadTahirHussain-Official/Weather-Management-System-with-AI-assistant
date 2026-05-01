@@ -1,215 +1,208 @@
-# STORMWATCH v3.0 — Professional Weather Management System
+# 🌩️ STORMWATCH Weather Management System
 
-![StormWatch Banner](https://user-images.githubusercontent.com/0000000/stormwatch_banner.png) <!-- (Update image) -->
+**Version**: 1.0
 
-> **Author:** Muhammad Tahir Hussain (Group 6)  
-> **Technology:** C (Win32 GDI) — NO MFC, NO Unicode, NO external libraries  
-> **Version:** 3.0
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [Group Members](#group-members)
+- [Quick Start](#quick-start)
+- [Usage Guide](#usage-guide)
+  - [Main Menu](#main-menu)
+  - [User Portal](#user-portal)
+  - [Admin Control Panel](#admin-control-panel)
+  - [AI Weather Chatbot](#ai-weather-chatbot)
+- [Files & Config Structure](#files--config-structure)
+- [Extending StormWatch](#extending-stormwatch)
+- [Building & Running](#building--running)
+- [Default Credentials](#default-credentials)
+- [AI Integration Providers](#ai-integration-providers)
+- [License](#license)
 
 ---
 
 ## Overview
 
-**StormWatch v3.0** is a modern, GUI-based weather management and analytics system built purely in C using Win32 API and GDI. It is designed for professional use by meteorological teams, system administrators, and climate researchers. StormWatch features live weather data from online APIs, rich visual dashboards, analytics, and management of weather stations, observations, alerts, users, and settings—packed into a single fast native Windows executable.
-
----
-
-## Table of Contents
-
-- [Features](#features)
-- [System Requirements](#system-requirements)
-- [Quick Start & Compilation](#quick-start--compilation)
-- [Code Structure](#code-structure)
-- [Architecture & Technology](#architecture--technology)
-- [User Interface Walkthrough](#user-interface-walkthrough)
-- [Data Sources & Live Weather](#data-sources--live-weather)
-- [Customization & Extensibility](#customization--extensibility)
-- [Troubleshooting](#troubleshooting)
-- [License](#license)
-- [Credits](#credits)
+StormWatch is a professional, cross-platform **Weather Management System** written in modern **C++17** for Windows terminals. It offers both real-time and mock demo weather data, stores user authentication in plain-text files, and provides an extensible chatbot interface supporting multiple AI providers (Groq, Gemini, OpenAI, Anthropic, and custom endpoints). Designed for institutional use but simple enough for self-study, it features a colorful CLI, role-based dashboards, and robust file-based persistence.
 
 ---
 
 ## Features
 
-- **Native Win32 GUI**
-  - Fast, responsive interface using GDI (no MFC, no Unicode dependencies)
-  - Professional dark-themed visuals, live-resizing, modern dashboard layout
-- **Secure Multi-User Authentication**
-  - Role-based login (Admin, Meteorologist, Viewer)
-  - Interactive, animated login and splash screens
-- **Live Weather Integration**
-  - Automatic fetch from [wttr.in](https://wttr.in) for any city (JSON REST via WinINet)
-  - Safe, threaded HTTP fetch never blocks UI
-- **Comprehensive Dashboards**
-  - Integrated dashboard: stations, records, analytics, live weather, alerts, users, system settings
-  - Animated metric cards, responsive tables, custom data widgets
-- **Weather Stations Management**
-  - Table of up to 8 demo/prod stations, with full attribute display
-  - Status, temp, humidity, wind, active/maintenance/offline status indicators
-- **Observational Records**
-  - Log/view up to 12 (demo) or unlimited (prod) weather records per station
-- **Forecasts**
-  - 7-day forecast display, animated multi-metric forecast cards, confidence bars
-- **Alert Management**
-  - View, issue, and monitor weather alerts (multi-severity, color-coded badges)
-  - Quick-access alert notification on top bar
-- **Analytical Graphs & Trends**
-  - Temperature bar charts and humidity line graphs by station
-  - Animated, interactive analytics with real-time redraws
-- **Live Weather Search**
-  - Enter any city, instantly fetch and display live weather (API)
-  - Quick search bar and 1-click city buttons
-- **User Management**
-  - Add/edit users: admin, meteorologist, viewer roles; activation status badges
-- **Settings & System Control**
-  - Adjustable general, network, alert, and security options
-  - All settings shown as key-value pairs in system control panel
-- **Polished UI/UX**
-  - Custom fonts, rounded rectangles, GDI-based gradients, smooth animation ticks (timer)
-  - Mouseover/sidebar navigation, tooltips, status bar for live status
-  - Professional-quality design, modern "SaaS dash" feel
+- 🌐 **Current Weather**: View up-to-date conditions for any city, including temperature, feels-like, humidity, wind, pressure, clouds, sunrise/sunset, and more.
+- 🗓️ **7-Day Forecast & 24-Hour Outlook**: Tabular, colored views of extended forecasts and hourly breakdowns.
+- 🚨 **Alert Management**: Admin can create, view, and clear weather alerts (with severity, type, time window, and issuer).
+- 🧑‍💻 **Role-based Access**: Separate dashboards for Admin and User roles with distinct capabilities.
+- 🤖 **AI Chatbot**: Integrated CLI weather Q&A, offering practical advice, planning tips, and lightning-quick responses. Supports major providers & local DEMO/mock.
+- 🔐 **Authentication & User Management**: File-based user accounts (plain text), admin registration, login recording, and lockout after failures.
+- 📝 **System Log**: Tracks all actions, logins, alerts, configuration changes, and shows recent history.
+- 🗃️ **Data Persistence**: All users, alerts, configuration, and logs are human-readable and accessible for backups.
+- 🛠️ **Colorful Terminal UI**: ANSI styling for clear, attractive output, progress bars, banners, and menu navigation.
+- 🔗 **Configurable API Keys**: Easily add your weather provider or AI keys via the admin dashboard.
+- 🏫 **User-friendly**: Suitable as a graduation/final-year project, institutional dashboard, or as a didactic demo for API integration.
+- 💡 **Well-Commented Code**: Clean, modular organization with rich function/class docstrings.
 
 ---
 
-## System Requirements
+## Screenshots
 
-- **Operating System:** Windows 10, 11 (Win32 API)
-- **Compiler:** GCC/MinGW (tested), or MSVC with C99/C11 support
-- **RAM:** 128MB minimum
-- **CPU:** Any x86/x64 processor
-- **Internet Connection:** Required for live data
-- **Dependencies:**  
-  - Win32 API (windows.h, gdi32, comctl32, wininet)
-  - No external DLLs, no dependencies beyond what’s built-in to Windows
+> _Add your screenshots here to demonstrate the vivid CLI dashboard, colored log, and chatbot experience._
 
 ---
 
-## Quick Start & Compilation
+## Group Members
 
-### Clone or Download the Source
+- **Muhammad Tahir Hussain** 
+- Muhammad Anas Alam 
+- Amir Hamza 
+- Muhammad Abubakar 
 
+---
+
+## Quick Start
+
+**Requirements:**
+- Windows OS (for console color and WinHTTP)
+- MinGW g++ or MSVC (C++17)
+- Internet connection (for live weather and AI API features)
+
+**To Build:**
 ```sh
-git clone https://github.com/<YourRepo>/stormwatch.git
-cd stormwatch/
+g++ -std=c++17 -o stormwatch module.cpp -lwinhttp
 ```
 
-### Compile (MinGW recommended)
-
+**To Run:**
 ```sh
-g++ prototype_12.cpp -o stormwatch_gui.exe -lgdi32 -lwininet -lcomctl32 -mwindows
-```
-- For MSVC, adjust libraries as per your environment.
-- The executable will be `stormwatch_gui.exe`.
-
-### Run
-
-```sh
-stormwatch_gui.exe
+stormwatch.exe
 ```
 
-The splash screen appears first. Click to proceed to login, then use:
-- **Admin:** `admin` / `admin123`
-- **Meteorologist:** `meteo` / `meteo123`
-- **Viewer:** Any username (≥3 chars) and password (≥4 chars)
+---
+
+## Usage Guide
+
+### Main Menu
+
+Upon launch, you’ll see the StormWatch banner, group members, and the main menu:
+
+- **Login as User** — access weather, forecasts, alerts, and the chatbot.
+- **Login as Administrator** — full control of alerts, keys, logs, and system settings.
+- **Register** — create new user or administrator (admin registration requires a secret key).
+- **Exit** — save all data & quit.
+
+Default demo accounts are generated on first use.
+
+### User Portal
+
+- **Check Current Weather** — Enter any city for up-to-date conditions.
+- **7-Day Forecast / 24-Hour Forecast** — Extended forecasts in table format.
+- **Active Alerts** — See all live system weather alerts with severity and details.
+- **AI Weather Chatbot** — Ask questions about weather, forecasts, safety, or travel advice; get natural-language responses from LMM-AI.
+- **My Profile** — View your info, login stats.
+
+### Admin Control Panel
+
+- **System Log** — View up to 30 most recent actions, warnings, and errors.
+- **Weather Operations** — Combined current weather and extended forecast lookup.
+- **Alert Management** — Issue or clear weather alerts (persisted in alerts.txt).
+- **System Statistics** — Counts of users, roles, system files, and operational status.
+- **Configure API Keys** — Set/change your weather API and AI chatbot keys. Enables live mode.
+- **System Status** — Check operational status of all subsystems.
+
+### AI Weather Chatbot
+
+- Type questions such as:
+  - "Is it likely to rain tomorrow in Lahore?"
+  - "What are safety precautions for thunderstorms?"
+  - "Tell me the forecast for Dubai next week."
+- Provider is auto-detected by the API key or can be set to a custom OpenAI-compatible URL.
+- DEMO mode provides static, offline mock responses until an API key is set.
 
 ---
 
-## Code Structure
+## Files & Config Structure
 
-**Single-file** for coursework purposes. Modular systems:
-
-- **UI & Layout**: All drawing done via GDI, from basic rectangles to full metric cards and charting (see: `MetricCard`, `TRow`, `FillRR` etc).
-- **Global State:** Managed via static variables, simulating data model storage for users, records, stations, settings.
-- **HTTP Fetch:** Asynchronous/threaded HTTP using WinINet + event messages (`WM_USER+1`).
-- **Page System:** `g_page` controls the current dash section, each has a dedicated `PageX` function.
-
-Key C sections:
-
-- `DrawSplash` — Splash + Login
-- `DrawSidebar`, `DrawTopbar`, `DrawStatbar` — Main layout blocks
-- `PageDash`, `PageStat`, `PageRec`, ... — Individual page drawing (call-based switch)
-- **Event Loop/Message Handling:** Standard Win32 `WndProc`
-- **Animation:** Timer-powered via `SetTimer`, smooth progress, pulse, and animations
+- `users.txt` — user account info (username, hashed password, name, email, role, etc)
+- `alerts.txt` — all currently active alerts, with type, severity, time window, issuer, etc.
+- `config.txt` — API keys for weather data and AI chatbot. Set via admin control panel.
+- (On first run, these files are generated if missing.)
 
 ---
 
-## Architecture & Technology
+## Extending StormWatch
 
-- **Language:** C (strict C89/C99, but compatible C++)
-- **UI:** Win32 API (no Unicode = classic ANSI code paths for all Win32 calls)
-- **Graphics:** GDI (custom primitives for every component, animation by buffered re-draw)
-- **Network:** WinINet for HTTP GET to public APIs
-- **Security:** No MFC/C++/C# or dynamic loading; static role demo accounts
-- **Resource-light:** No large DLLs, no Unicode bloat, no .NET
+- **Weather Provider**:
+    - By default, uses mock demo weather unless you set a valid [OpenWeatherMap](https://openweathermap.org/api) API key.
+    - See `Configure API Keys` in the Admin panel.
 
----
+- **AI Chatbot Provider**:
+    - Drop in API keys for: Groq (`gsk_...`), Google Gemini (`AIza...`), Anthropic Claude (`sk-ant...`), OpenAI (`sk-...`), or your own custom endpoint.
+    - Switching providers is instant via the admin config UI.
+    - For custom OpenAI-compatible APIs, supply your endpoint URL in addition to the key.
+    - Ask about weather, safety, or forecasts; bot replies in natural language.
 
-## User Interface Walkthrough
+- **Data storage**:
+    - All user/activity/alert/config files are plain text, comma or bar-delimited — easily extensible and human-readable for backups or imports.
 
-- **Login:** Secure, animated login with focus switching, error feedback. Use demo credentials or create a viewer on the fly.
-- **Sidebar:** Modern, icon-based navigation with badges and current user info.
-- **Top Bar:** Page title, live clock, quick action buttons for alerts, refresh, logout.
-- **Status Bar:** Live status messages, copyright.
-- **Dashboard:** Four key animated metrics, station status table, 7-day forecast.
-- **Stations:** Comprehensive tabular view of all weather stations.
-- **Records:** Observation log (date, time, multiple metrics).
-- **Forecasts:** Daily forecast, confidence markers, animated temp bars.
-- **Alerts:** Severity-based card display of currently issued weather alerts.
-- **Analytics:** Dashboard with metric charts—average temperature, humidity, wind, plus multi-station bar and line graphs.
-- **User Management:** List/edit all users and roles, activate/deactivate from UI.
-- **Settings:** System and network parameters (view only in demo).
+- **Code customization**:
+    - Modular architecture: `User`, `AlertSys`, `ConfigStore`, `Log`, `Chatbot`, `WeatherSvc`, and UI helpers are separable or extendable.
+    - Add additional role types or dashboard modes by modifying the respective class implementations.
 
 ---
 
-## Data Sources & Live Weather
+## Building & Running
 
-- **Live weather pulled from**: [https://wttr.in](https://wttr.in?format=j1)  
-  - City names can be entered or clicked using "quick cities" buttons.
-  - Data fetched via HTTP+JSON, parsed and mapped to internal struct.
-- **Sample Station/Record/Alert/User data:** Provided for demonstration and testing.  
-  - Extend or load from file as needed.
+### Windows
 
----
+```sh
+g++ -std=c++17 -o stormwatch module.cpp -lwinhttp
+```
 
-## Customization & Extensibility
+- Run `stormwatch.exe` from cmd or PowerShell.
 
-- **To add new stations/alerts/users:**  
-  Edit the respective data arrays in the source. For larger deployments, back or load from file/database.
-- **Change theme colors or layout:**  
-  Edit the `#define C_COLOR ...` section.
-- **Additional features:**  
-  Add new pages by expanding `PG_COUNT` and the NAV array, then implement a `PageX` drawing function and call in the main page switch.
-- **Integrate other APIs:**  
-  Replace or complement WinINet fetch logic with any JSON weather API.
+### Notes
+
+- **Color support**: Works best on Windows 10+ terminal with ANSI/VT support.
+- **APIs**: By default, runs in DEMO mode (no API keys needed for CLI demo/testing). For real data, you'll need keys.
+- **WinHTTP**: Used for all external HTTP requests, including weather & AI.
 
 ---
 
-## Troubleshooting
+## Default Credentials
 
-- **Compilation errors (Wininet or GDI missing):**
-  - Ensure you are compiling on Windows with the proper `-lgdi32 -lwininet -lcomctl32 -mwindows` flags.
-- **No window appears or runs slowly:**
-  - Requires hardware/software GPU for GDI; ensure Windows supports classic GDI.
-  - Some VMs or RDP sessions may lag on animation-heavy canvases.
-- **Live Weather not loading:**
-  - Check internet connection.
-  - [wttr.in] API may rate-limit or block if requests are too frequent or from restricted IPs.
+First run creates:
+
+| Role     | Username | Password    |
+|----------|----------|-------------|
+| Admin    | admin    | Admin@123   |
+| User     | user1    | User@123    |
+
+### Admin registration key
+
+`ADMIN-2024`
+
+---
+
+## AI Integration Providers
+
+Just paste in your API key via **Admin > Configure API Keys**:
+
+| Provider   | Accepted Key Format   | Notes                        |
+|------------|----------------------|------------------------------|
+| Groq       | `gsk_...`            | Llama-3, Mixtral, Gemma      |
+| Gemini     | `AIza...`            | Google Gemini                |
+| Anthropic  | `sk-ant-...`         | Claude                       |
+| OpenAI     | `sk-...`              | GPT-3.5, GPT-4, etc.         |
+| Custom     | Any key + custom URL  | OpenAI-compatible endpoints  |
 
 ---
 
 ## License
 
-This project is released under the MIT License. See [LICENSE](LICENSE) for details.
+This system is an original group project created **for educational use** at CUI Wah, © 2025.  
+Open-source for academic and demo use only. See code comments for further details.
 
 ---
 
-## Credits
-
-- Muhammad Tahir Hussain – UI/logic/Win32 implementation, Group 6  
-- [wttr.in](https://wttr.in) – API for live weather integration
-- Special thanks to open-source Win32, WinINet, and GDI documentation sources
-
----
-
-> **Note:** This project is provided for educational, research, and demonstration purposes and is not intended as a real-world operational weather SCADA or mission-critical dashboard without further security and robustness reviews.
+> For questions or contributions, open an issue or contact [Muhammad Tahir Hussain](mailto:mthussain002@gmail.com).
